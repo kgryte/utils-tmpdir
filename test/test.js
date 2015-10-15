@@ -45,7 +45,11 @@ describe( 'utils-tmpdir', function tests() {
 		function mock() {
 			var tmp;
 			// Assume tests are run on Linux env...
-			tmp = process.env[ 'TMPDIR' ];
+			tmp = process.env[ 'TMPDIR' ] ||
+				process.env[ 'TMP' ] ||
+				process.env[ 'TEMP' ] ||
+				'/tmp';
+
 			if ( /.\/$/.test( tmp ) ) {
 				tmp = tmp.slice( 0, -1 );
 			}
