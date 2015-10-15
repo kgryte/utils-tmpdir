@@ -1,6 +1,6 @@
 {
   "name": "utils-tmpdir",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Returns the operating system's directory for temporary files.",
   "author": {
     "name": "Athan Reines",
