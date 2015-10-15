@@ -43,7 +43,7 @@ describe( 'utils-tmpdir', function tests() {
 		expect( tmpdir ).to.be.a( 'function' );
 	});
 
-	it( 'should alias `os.tmpdir`', function test() {
+	it( 'should match `os.tmpdir` (if supported)', function test() {
 		var tmp;
 		if ( os.tmpdir === void 0 ) {
 			// Older Node versions...
