@@ -18,6 +18,23 @@ var expect = chai.expect,
 	assert = chai.assert;
 
 
+// MOCK //
+
+function mock() {
+	var tmp;
+
+	// Assume a Linux env...
+	tmp = process.env[ 'TMPDIR' ] ||
+		process.env[ 'TMP' ] ||
+		process.env[ 'TEMP' ] ||
+		'/tmp';
+	if ( /.\/$/.test( tmp ) ) {
+		tmp = tmp.slice( 0, -1 );
+	}
+	return tmp;
+}
+
+
 // TESTS //
 
 describe( 'utils-tmpdir', function tests() {
@@ -41,33 +58,23 @@ describe( 'utils-tmpdir', function tests() {
 		if ( os.tmpdir === mock ) {
 			delete os.tmpdir;
 		}
-
-		function mock() {
-			var tmp;
-			// Assume tests are run on Linux env...
-			tmp = process.env[ 'TMPDIR' ] ||
-				process.env[ 'TMP' ] ||
-				process.env[ 'TEMP' ] ||
-				'/tmp';
-
-			if ( /.\/$/.test( tmp ) ) {
-				tmp = tmp.slice( 0, -1 );
-			}
-			return tmp;
-		}
 	});
 
 	it( 'should support older Node versions', function test() {
-		var fcn;
+		var fcn,
+			tmp;
 
+		// Assume Linux env...
+		tmp = mock();
 		if ( os.tmpdir === void 0 ) {
-			assert.strictEqual( tmpdir(), process.env[ 'TMPDIR' ] );
+
+			assert.strictEqual( tmpdir(), tmp );
 		} else {
 			fcn = os.tmpdir;
 			delete os.tmpdir;
 
 			// Assume Linux env...
-			assert.strictEqual( tmpdir(), process.env[ 'TMPDIR' ].slice( 0, -1 ) );
+			assert.strictEqual( tmpdir(), tmp );
 
 			os.tmpdir = fcn;
 		}
